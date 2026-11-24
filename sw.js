@@ -1,5 +1,5 @@
 // Offline cache: pages are kept after the first visit. Bump VERSION when files change so phones refresh.
-const VERSION = 'ff-v1';
+const VERSION = 'ff-v2';
 const CORE = ['./', './start.html', './week.html', './journal.html', './routine.html', './worship.html', './days.html', './fab4.html', './install.html', './ff.css', './ff.js', './manifest.json'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => Promise.all(CORE.map(u => fetch(u, { cache: 'no-cache' }).then(r => c.put(u, r)).catch(() => {})))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
