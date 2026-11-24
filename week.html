@@ -28,7 +28,7 @@ function render(){
   $('#head').innerHTML=`<div class="dayhead"><span class="eyebrow">Week ${w.n} of 3 · Days ${(w.n-1)*7+1} to ${w.n*7}</span><h1>${esc(w.title)}</h1><p>${esc(w.sub)}</p></div>`;
   const v=VIDEOS[w.n];
   $('#video').innerHTML=v?`<div class="card"><span class="eyebrow">The call</span><h3>Michelle's Week ${w.n} call</h3>${vidHTML(v,'Faith First Reset, Week '+w.n,CHAPTERS[w.n])}<p>The live call, recorded. The teaching below is the same material in writing, with the tools, so you can do it in pieces through the week.</p></div>`
-    :`<div class="card soft"><span class="eyebrow">The call</span><h3>Week ${w.n} is written out below</h3><p>This week's teaching is here in Michelle's words, with the tools. A short video from Michelle will be added here.</p></div>`;
+    :'';
   $('#steps').innerHTML=w.steps.map(s=>`<div class="card step"><h3>${esc(s.h)}</h3><div class="copy">${s.html}</div>${s.ws?`<div class="wsbox" data-ws="${s.ws}"></div>`:''}</div>`).join('');
   $$('.wsbox').forEach(b=>renderWS(b.dataset.ws,b));
   $('#finish').innerHTML=wd[w.n]?`<div class="card gold"><h3>Week ${w.n} done ✓</h3><p>Finished ${nice(wd[w.n])}. Come back to it any time.</p><button class="pill" id="undo">Mark as not done</button></div>`:`<button class="go" id="doneBtn">I've been through Week ${w.n} ✓</button>`;
