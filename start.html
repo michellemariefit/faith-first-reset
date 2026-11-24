@@ -1,0 +1,53 @@
+<!doctype html>
+<meta charset="utf-8">
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Faith First Reset</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7a4f5a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Faith First">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="ff.css">
+<div class="wrap">
+  <header class="page" style="padding-top:12px"><img src="icons/logo.png" alt="Faith First Reset" style="width:min(300px,78%);height:auto"></header>
+  <section class="hero"><img src="images/michelle2.jpg" alt=""><div class="tx"><span class="eyebrow">21 days with Michelle Marie</span><h1>God first, in a world obsessed with body first</h1><p>Not pressure. Not perfection. Not guilt. Five to fifteen minutes a day.</p></div></section>
+  <section id="appt"></section>
+  <section id="today"></section>
+  <section id="help"></section>
+  <section id="weeks" class="ways"></section>
+  <h2 class="also">My tools</h2>
+  <section class="ways">
+    <a class="way" href="journal.html"><span class="ic">P</span><span><b>Prayer journal</b><small>Praise, repentance, ask. By subject. And the people I said I'd pray for.</small></span></a>
+    <a class="way" href="routine.html"><span class="ic">Q</span><span><b>My quiet time</b><small>The appointment, the place, and what fills it.</small></span></a>
+    <a class="way" href="worship.html"><span class="ic">♪</span><span><b>Worship moments</b><small>Kitchen, car, shower. Tick them through the day.</small></span></a>
+    <a class="way" href="days.html"><span class="ic">21</span><span><b>My 21 days</b><small>Every check-in, and your streak.</small></span></a>
+    <a class="way" href="fab4.html"><span class="ic gold">4</span><span><b>My Fab 4</b><small>Who to invite, the first book, the first meeting.</small></span></a>
+  </section>
+  <section class="card soft"><h3>Put it on your home screen</h3><p>Then it opens like an app, with its own icon, right where your appointment is.</p><a href="install.html" style="font-weight:600;color:var(--brand)">Show me how, with pictures →</a></section>
+</div>
+<script src="ff.js"></script>
+<script>
+function render(){
+  const a=appt(), dn=dayNumber(), c={showed:false,parts:{},...checkins()[TODAY]}, st=streak(), wd=weeksDone();
+  $('#appt').innerHTML=a.time?`<div class="goalbar"><span class="eyebrow">My appointment with God</span><h2>${fmtTime(a.time)}${a.place?' · '+esc(a.place):''}</h2><p>${a.days.length===7?'Every day':a.days.map(i=>WEEKDAYS[i]).join(', ')}${a.drink?' · '+esc(a.drink):''}${a.music?' · '+esc(a.music):''}. <a href="routine.html">Change</a></p></div>`
+    :`<div class="card soft"><span class="eyebrow">First</span><h3>Set your appointment with God</h3><p>Week 1 walks you through it. A time you can keep, a place you love, and what goes in it.</p><a class="go" href="week.html#1">Start Week 1 →</a></div>`;
+  const parts=PARTS.filter(p=>a.parts.includes(p.id));
+  $('#today').innerHTML=`<div class="card"><div class="score"><span><span class="eyebrow">Today · Day ${dn} of 21</span><h3>${c.showed?'You showed up ✓':'Did you show up?'}</h3></span><b>${st}</b></div><p class="note" style="margin-top:-6px">${st===1?'1 day in a row':st?st+' days in a row':'Your streak starts today'}</p>
+    <div class="ck"><label class="${c.showed?'on':''} big"><input type="checkbox" id="showed" ${c.showed?'checked':''}><span><b>I showed up</b><small>At the appointment, or whenever today allowed. It counts.</small></span></label>
+    ${parts.map(p=>`<label class="${c.parts[p.id]?'on':''}"><input type="checkbox" data-p="${p.id}" ${c.parts[p.id]?'checked':''}><span>${p.name}${p.link&&LINKS[p.link]?` <a href="${LINKS[p.link]}" target="_blank" rel="noopener">open →</a>`:p.href?` <a href="${p.href}">open →</a>`:''}</span></label>`).join('')}</div>
+    <label class="note" style="display:flex;flex-direction:column;gap:4px">One line about today<input type="text" id="dnote" placeholder="What spoke to you" value="${esc(c.note||'')}"></label></div>`;
+  $('#help').innerHTML=helpHTML('home');
+  const open=[1,dn>7||daysDone()>=7?2:0,dn>14||daysDone()>=14?3:0];
+  $('#weeks').innerHTML=WEEKS.map(w=>`<a class="way" href="week.html#${w.n}"><span class="ic ${wd[w.n]?'gold':''}">${w.n}</span><span><b>Week ${w.n}: ${esc(w.title)}</b><small>${esc(w.sub)}</small></span>${wd[w.n]?'<span class="tick">✓</span>':open.includes(w.n)?'':'<span class="tick" style="color:var(--muted)">soon</span>'}</a>`).join('');
+}
+document.addEventListener('change',e=>{
+  const c={showed:false,parts:{},note:'',...checkins()[TODAY]};
+  if(e.target.id==='showed'){c.showed=e.target.checked;setCheckin(TODAY,c);render();return}
+  const i=e.target.closest('input[data-p]');if(i){c.parts[i.dataset.p]=i.checked;if(i.checked)c.showed=true;setCheckin(TODAY,c);render()}
+});
+document.addEventListener('input',e=>{if(e.target.id==='dnote'){const c={showed:false,parts:{},...checkins()[TODAY]};c.note=e.target.value;setCheckin(TODAY,c)}});
+render();
+</script>

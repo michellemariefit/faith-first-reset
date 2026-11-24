@@ -1,0 +1,27 @@
+<!doctype html>
+<meta charset="utf-8">
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prayer Journal · Faith First Reset</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7a4f5a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Faith First">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="ff.css">
+<div class="wrap">
+  <header class="page"><a class="back" href="start.html">← Home</a><span class="eyebrow">From Week 2</span><h1>My prayer journal</h1><p class="lead">Praise. Repentance. Ask. One page per subject. Open it when you pray and read it to Him.</p></header>
+  <section class="card"><h3>By subject</h3><div id="journal"></div></section>
+  <section class="card"><h3>People I said I'd pray for</h3><div id="people"></div></section>
+  <section class="card"><h3>Today's prayer</h3><p>Anything else on your heart today. Saved by date.</p><textarea id="free" rows="5" placeholder="Lord, today…"></textarea><div id="past"></div></section>
+</div>
+<script src="ff.js"></script>
+<script>
+renderWS('journal',$('#journal'));renderWS('people',$('#people'));
+$('#free').value=prayers()[TODAY]||'';
+$('#free').addEventListener('input',e=>setPrayer(TODAY,e.target.value));
+const past=Object.entries(prayers()).filter(([k])=>k!==TODAY).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,10);
+$('#past').innerHTML=past.length?`<p class="note" style="margin-top:10px">Earlier</p>`+past.map(([k,v])=>`<div style="padding:8px 0;border-top:1px dashed var(--line)"><span class="eyebrow">${nice(k)}</span><p>${esc(v)}</p></div>`).join(''):'';
+</script>

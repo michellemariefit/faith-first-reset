@@ -1,0 +1,25 @@
+<!doctype html>
+<meta charset="utf-8">
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Worship · Faith First Reset</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7a4f5a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Faith First">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="ff.css">
+<div class="wrap">
+  <header class="page"><a class="back" href="start.html">← Home</a><span class="eyebrow">From Week 2</span><h1>Worship moments</h1><p class="lead">Worship is praise, and it's prayer. Make it the background of your day, and your kids will model it.</p></header>
+  <section class="card"><div id="w"></div></section>
+  <section class="card"><h3>This week</h3><div id="grid" class="wk"></div><p class="note">How many moments each day, over the last 7 days.</p></section>
+  <section class="card soft"><h3>When the anxiety comes</h3><p>Turn worship on and say the words of the song. Just focus on the words. That's what I taught my kids when they had nightmares, and it worked every time. It still works on me.</p></section>
+</div>
+<script src="ff.js"></script>
+<script>
+renderWS('worship',$('#w'));
+function grid(){const out=[];for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const k=ymd(d);const n=Object.values(worship()[k]||{}).filter(Boolean).length;out.push(`<div class="${k===TODAY?'today':''} ${n?'done':''}"><span class="d">${WEEKDAYS[(d.getDay()+6)%7]}</span><span class="n">${n||'·'}</span></div>`)}$('#grid').innerHTML=out.join('')}
+grid();document.addEventListener('change',grid);
+</script>

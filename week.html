@@ -1,0 +1,41 @@
+<!doctype html>
+<meta charset="utf-8">
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Week · Faith First Reset</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7a4f5a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Faith First">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="ff.css">
+<div class="wrap">
+  <header class="page"><a class="back" href="start.html">← Home</a></header>
+  <section id="head"></section>
+  <section id="video"></section>
+  <section id="steps" style="display:flex;flex-direction:column;gap:14px"></section>
+  <section id="finish"></section>
+  <nav class="daynav" id="nav"></nav>
+</div>
+<script src="ff.js"></script>
+<script>
+function n(){const x=parseInt(location.hash.slice(1));return x>=1&&x<=3?x:1}
+function render(){
+  const w=WEEKS[n()-1], wd=weeksDone();
+  document.title=`Week ${w.n} · Faith First Reset`;
+  $('#head').innerHTML=`<div class="dayhead"><span class="eyebrow">Week ${w.n} of 3 · Days ${(w.n-1)*7+1} to ${w.n*7}</span><h1>${esc(w.title)}</h1><p>${esc(w.sub)}</p></div>`;
+  const v=VIDEOS[w.n];
+  $('#video').innerHTML=v?`<div class="card"><span class="eyebrow">The call</span><h3>Michelle's Week ${w.n} call</h3>${vidHTML(v,'Faith First Reset, Week '+w.n,CHAPTERS[w.n])}<p>The live call, recorded. The teaching below is the same material in writing, with the tools, so you can do it in pieces through the week.</p></div>`
+    :`<div class="card soft"><span class="eyebrow">The call</span><h3>Week ${w.n} is written out below</h3><p>This week's teaching is here in Michelle's words, with the tools. A short video from Michelle will be added here.</p></div>`;
+  $('#steps').innerHTML=w.steps.map(s=>`<div class="card step"><h3>${esc(s.h)}</h3><div class="copy">${s.html}</div>${s.ws?`<div class="wsbox" data-ws="${s.ws}"></div>`:''}</div>`).join('');
+  $$('.wsbox').forEach(b=>renderWS(b.dataset.ws,b));
+  $('#finish').innerHTML=wd[w.n]?`<div class="card gold"><h3>Week ${w.n} done ✓</h3><p>Finished ${nice(wd[w.n])}. Come back to it any time.</p><button class="pill" id="undo">Mark as not done</button></div>`:`<button class="go" id="doneBtn">I've been through Week ${w.n} ✓</button>`;
+  $('#nav').innerHTML=`${w.n>1?`<a class="pill" href="#${w.n-1}">← Week ${w.n-1}</a>`:'<span></span>'}${w.n<3?`<a class="pill" href="#${w.n+1}">Week ${w.n+1} →</a>`:'<a class="pill" href="start.html">Home →</a>'}`;
+  window.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{if(e.target.id==='doneBtn'){setWeekDone(n(),true);render()}if(e.target.id==='undo'){setWeekDone(n(),false);render()}});
+window.addEventListener('hashchange',render);
+render();
+</script>

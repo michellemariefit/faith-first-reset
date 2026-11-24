@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Quiet Time · Faith First Reset</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7a4f5a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Faith First">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="ff.css">
+<div class="wrap">
+  <header class="page"><a class="back" href="start.html">← Home</a><span class="eyebrow">From Week 1</span><h1>My quiet time</h1><p class="lead">The appointment, the place, and what fills it. Change it whenever the season changes.</p></header>
+  <section class="card"><h3>The appointment</h3><div id="appt"></div></section>
+  <section class="card"><h3>What it looks like</h3><div id="reframe"></div></section>
+  <section class="card"><h3>What's in it</h3><div id="parts"></div></section>
+</div>
+<script src="ff.js"></script>
+<script>renderWS('appt',$('#appt'));renderWS('reframe',$('#reframe'));renderWS('parts',$('#parts'));</script>

@@ -1,0 +1,30 @@
+<!doctype html>
+<meta charset="utf-8">
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My 21 Days · Faith First Reset</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#7a4f5a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Faith First">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="ff.css">
+<style>.d21{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.d21 div{aspect-ratio:1;border-radius:12px;border:1px solid var(--line);background:var(--card);display:grid;place-items:center;font:700 18px/1 var(--display);color:var(--muted)}.d21 div.on{background:var(--done-soft);border-color:var(--done);color:var(--done)}.d21 div.next{border-color:var(--brand);color:var(--brand)}.log div{padding:8px 0;border-top:1px dashed var(--line);font-size:15px}.log small{color:var(--muted)}</style>
+<div class="wrap">
+  <header class="page"><a class="back" href="start.html">← Home</a><span class="eyebrow">The reset</span><h1>My 21 days</h1><p class="lead" id="lead"></p></header>
+  <section id="help"></section>
+  <section class="card"><div class="d21" id="grid"></div><div class="two" style="margin-top:10px"><div class="stat"><b id="streak">0</b><small>days in a row</small></div><div class="stat"><b id="total">0</b><small>of 21 days</small></div></div></section>
+  <section class="card"><h3>What spoke to you</h3><div class="log" id="log"></div></section>
+</div>
+<script src="ff.js"></script>
+<script>
+$('#help').innerHTML=helpHTML('days');
+const done=daysDone(), st=streak();
+$('#lead').textContent=started()?`Started ${nice(started())}. Day 1 was your first check-in, so a missed day is never a failed day.`:'Day 1 is your first check-in. Tick it on the home screen.';
+$('#grid').innerHTML=Array.from({length:21},(_,i)=>`<div class="${i<done?'on':i===done?'next':''}">${i+1}</div>`).join('');
+$('#streak').textContent=st;$('#total').textContent=done;
+const entries=Object.entries(checkins()).filter(([,c])=>c.showed).sort((a,b)=>b[0].localeCompare(a[0]));
+$('#log').innerHTML=entries.length?entries.map(([k,c])=>`<div><small>${nice(k)} · ${Object.keys(c.parts||{}).filter(p=>c.parts[p]).length} parts</small><br>${esc(c.note||'')||'<span class="note">Showed up.</span>'}</div>`).join(''):'<p class="note">Your first check-in is today.</p>';
+</script>
