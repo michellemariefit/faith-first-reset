@@ -19,9 +19,9 @@ function nice(d){const x=new Date(d+'T12:00');return x.toLocaleDateString(undefi
 
 /* ---- links Michelle gives out. Change them here and every page follows. ---- */
 const LINKS={
-  bibleApp:'https://www.bible.com/',            // YouVersion. Put the exact devotion plan link here when Michelle sends it.
-  joel:'https://www.joelosteen.com/',           // Joel Osteen's daily devotional email signup
-  playlist:'',                                  // worship playlist, optional
+  bibleApp:'https://www.bible.com/en/reading-plans/50214',   // YouVersion plan: Close in Prayer
+  joel:'https://www.joelosteen.com/inspiration/todays-word',   // Joel Osteen, Today's Word
+  playlist:'https://music.apple.com/us/playlist/worship-essentials/pl.06a94ac8b3fc41c2bef77143d70e63a8',   // Apple Music: Worship Essentials
   fervent:'https://www.amazon.com/s?k=fervent+priscilla+shirer',
   dailyGrace:'https://thedailygraceco.com/',
 };
@@ -43,11 +43,11 @@ function weekFor(day){return day<=7?1:day<=14?2:3}
 
 /* ---- my quiet time (the appointment and what fills it) ---- */
 const PARTS=[
-  {id:'devo',name:'A devotion',small:'Bible app plan, or the one Michelle shares. 5 minutes.',link:'bibleApp',linkLabel:'Open the Bible app'},
-  {id:'joel',name:"Joel's devotion",small:'The daily email. A verse and a short word.',link:'joel',linkLabel:"Sign up for Joel's email"},
+  {id:'devo',name:'A devotion',small:'The Bible app plan we do together: Close in Prayer. 5 minutes.',link:'bibleApp',linkLabel:'Open the plan in the Bible app'},
+  {id:'joel',name:"Joel's devotion",small:"Today's Word. A verse and a short word, every morning.",link:'joel',linkLabel:"Read today's word"},
   {id:'scripture',name:'Scripture',small:'The verses in the devotion count. Read them again, slowly.'},
   {id:'prayer',name:'Prayer',small:'Praise, repentance, ask. Use the journal to warm up.',href:'journal.html',linkLabel:'Open my prayer journal'},
-  {id:'worship',name:'Worship',small:'One song, eyes closed, or on in the background while you move.',href:'worship.html',linkLabel:'Worship moments'},
+  {id:'worship',name:'Worship',small:'One song, eyes closed, or on in the background while you move.',link:'playlist',linkLabel:"Michelle's playlist"},
   {id:'journal',name:'Write it down',small:'What spoke to you. One line is enough.'},
 ];
 const appt=()=>({time:'',days:[0,1,2,3,4,5,6],place:'',drink:'',music:'',parts:['devo','joel','prayer'],...store.get('ff:appt',{})});
